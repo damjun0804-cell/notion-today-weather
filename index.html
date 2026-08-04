@@ -3,195 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ansan Sangrok-gu Weather Stand</title>
+  <title>Ansan Weather Stand (Matched)</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: transparent;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; background-color: transparent;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    /* 달력과 통일감을 주는 세이지 그린 탁상 스탠드 */
+    /* 달력과 완벽히 매칭되는 세이지 그린 탁상 스탠드 */
     .weather-stand {
       position: relative;
-      background: #7a948e;
-      padding: 26px 20px 18px 20px;
+      background: #7a948e; /* 이미지 속 세이지 그린 색상 */
+      width: 290px;
+      height: 160px; /* 달력 위젯 높이와 동일하게 고정 */
+      padding: 30px 15px 15px 15px; /* 상단 바 간격 확보 */
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), inset 0 -4px 0 rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
     }
 
-    /* 상단 고정 수평 바 */
+    /* 달력과 동일한 상단 고정 바 */
     .top-bar {
-      position: absolute;
-      top: 14px;
-      left: 15px;
-      right: 15px;
-      height: 6px;
-      background: #5b736e;
-      border-radius: 3px;
+      position: absolute; top: 14px; left: 15px; right: 15px;
+      height: 6px; background: #5b736e; border-radius: 3px;
     }
 
-    /* 위치 및 지역 타이틀 */
-    .location-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      margin-top: 4px;
-      opacity: 0.9;
-    }
-
-    /* 정보 표시 영역 컨테이너 (총 3개 카드) */
+    /* 3개 카드 컨테이너 - 달력과 동일한 간격 */
     .content-container {
-      display: flex;
-      gap: 10px;
-      align-items: center;
+      display: flex; gap: 10px; align-items: center; flex: 1; /* 가로 가득 */
+      justify-content: center; /* 카드 중앙 정렬 */
     }
 
-    /* 공통 카드 개별 스타일 */
+    /* 공통 카드 개별 스타일 (달력 플립 카드와 동일 규격) */
     .card {
       position: relative;
-      height: 95px;
-      background: #ffffff;
-      border-radius: 6px;
+      width: 60px; /* 달력 카드 너비와 동일 */
+      height: 95px; /* 달력 카드 높이와 동일 */
+      background: #ffffff; border-radius: 6px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
       border: 1px solid #e2e8f0;
     }
 
-    .icon-card { width: 75px; }
-    .temp-card { width: 95px; }
-    .pop-card  { width: 85px; }
-
-    /* 카드 상단 스프링 바인더 링 2개 */
+    /* 달력과 완벽히 동일한 상단 스프링 바인더 링 2개 */
     .card::before, .card::after {
-      content: '';
-      position: absolute;
-      top: -12px;
-      width: 7px;
-      height: 16px;
-      background: #f8fafc;
-      border: 2px solid #cbd5e1;
-      border-radius: 4px;
-      z-index: 10;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      content: ''; position: absolute; top: -12px;
+      width: 7px; height: 16px; background: #f8fafc;
+      border: 2px solid #cbd5e1; border-radius: 4px;
+      z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .card::before { left: 10px; }
+    .card::before { left: 10px; } /* 달력과 동일한 위치 */
     .card::after { right: 10px; }
 
     /* 날씨 아이콘/텍스트 스타일 */
-    .weather-icon {
-      font-size: 2rem;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .weather-text {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #5b736e;
-    }
+    .weather-icon { font-size: 2rem; line-height: 1; margin-bottom: 2px; }
+    .weather-text { font-size: 0.7rem; font-weight: 700; color: #5b736e; text-align: center; }
 
-    /* 기온 표시 스타일 */
-    .temp-value {
-      display: flex;
-      align-items: baseline;
-    }
+    /* 기온 표시 스타일 (달력 숫자와 동일 색상 및 톤) */
     .temp-digit {
-      font-size: 2.6rem;
-      font-weight: 800;
-      color: #7a948e;
-      line-height: 1;
-      font-family: 'Arial Round', -apple-system, sans-serif;
+      font-size: 2.8rem; font-weight: 800; color: #7a948e; /* 달력 숫자와 동일 세이지 그린 */
+      line-height: 1; font-family: 'Arial Round', -apple-system, sans-serif;
     }
-    .temp-unit {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #7a948e;
-      margin-left: 2px;
-    }
+    .temp-unit { font-size: 1.2rem; font-weight: 600; color: #7a948e; position: relative; top: -14px; }
 
     /* 강수확률 카드 내부 스타일 */
-    .pop-label {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #868e96;
-      margin-bottom: 2px;
-    }
-    .pop-value {
-      display: flex;
-      align-items: baseline;
-    }
+    .pop-label { font-size: 0.6rem; font-weight: 700; color: #868e96; margin-bottom: 2px; text-transform: uppercase; }
     .pop-digit {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: #3b82f6; /* 물방울 느낌의 파란색 포인트 */
-      line-height: 1;
-      font-family: 'Arial Round', -apple-system, sans-serif;
+      font-size: 2.4rem; font-weight: 800; color: #3b82f6; /* 파란색 포인트 포인트 */
+      line-height: 1; font-family: 'Arial Round', -apple-system, sans-serif;
     }
-    .pop-unit {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #3b82f6;
-      margin-left: 1px;
-    }
-
-    /* 하단 라벨 */
-    .footer-label {
-      margin-top: 10px;
-      font-size: 0.7rem;
-      color: #ffffff;
-      opacity: 0.8;
-      letter-spacing: 0.5px;
-    }
+    .pop-unit { font-size: 0.9rem; font-weight: 700; color: #3b82f6; margin-left: 1px; }
   </style>
 </head>
 <body>
 
 <div class="weather-stand">
   <div class="top-bar"></div>
-  <div class="location-title">경기도 안산시 상록구 날씨</div>
   
   <div class="content-container">
-    <!-- 1. 날씨 상태 카드 -->
+    <!-- 1. 날씨 상태 카드 (아이콘+텍스트) -->
     <div class="card icon-card">
       <div id="weather-icon" class="weather-icon">⏳</div>
       <div id="weather-text" class="weather-text">로딩중</div>
     </div>
 
-    <!-- 2. 기온 카드 -->
+    <!-- 2. 기온 카드 (숫자+°C) -->
     <div class="card temp-card">
-      <div class="temp-value">
+      <div>
         <span id="temp" class="temp-digit">--</span>
         <span class="temp-unit">°C</span>
       </div>
     </div>
 
-    <!-- 3. 강수확률 카드 -->
+    <!-- 3. 강수확률 카드 (Label+숫자+%) -->
     <div class="card pop-card">
-      <div class="pop-label">강수확률</div>
-      <div class="pop-value">
+      <div class="pop-label">PRECIP</div>
+      <div>
         <span id="pop" class="pop-digit">--</span>
         <span class="pop-unit">%</span>
       </div>
     </div>
   </div>
 
-  <div class="footer-label"></div>
 </div>
 
 <script>
@@ -212,7 +127,6 @@
 
   async function fetchWeather() {
     try {
-      // 기온, 현재 날씨 상태 및 시간별 강수확률(precipitation_probability) 수집 API 호출
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current_weather=true&hourly=precipitation_probability&timezone=Asia%2FTokyo`;
       const response = await fetch(url);
       const data = await response.json();
@@ -221,7 +135,6 @@
       const temp = Math.round(currentWeather.temperature);
       const status = getWeatherStatus(currentWeather.weathercode);
 
-      // 현재 시간과 일치하는 강수확률 인덱스 찾기
       const currentHourISO = currentWeather.time.substring(0, 13) + ":00";
       const hourlyTimes = data.hourly.time;
       const hourIndex = hourlyTimes.findIndex(t => t === currentHourISO);
@@ -231,7 +144,6 @@
         pop = data.hourly.precipitation_probability[hourIndex];
       }
 
-      // DOM 업데이트
       document.getElementById('temp').innerText = temp;
       document.getElementById('weather-icon').innerText = status.icon;
       document.getElementById('weather-text').innerText = status.text;
